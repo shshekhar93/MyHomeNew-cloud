@@ -1,0 +1,19 @@
+{
+  "name": "myhomenew-cloud",
+  "version": "1.0.0",
+  "description": "Cloud application in MyHomeNew series",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shshekhar93/MyHomeNew-cloud.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shshekhar93/MyHomeNew-cloud/issues"
+  },
+  "homepage": "https://github.com/shshekhar93/MyHomeNew-cloud#readme"
+}

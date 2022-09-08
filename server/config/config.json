@@ -1,0 +1,6 @@
+{
+  "configDir": "/home/shashi/.cloud-config",
+  "directories": {
+    "data": "/home/shashi/test-content-dir"
+  }
+}
