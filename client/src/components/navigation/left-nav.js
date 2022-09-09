@@ -27,18 +27,27 @@ function LeftNav() {
       '@media only screen and (max-width: 600px)': {
         display: isOpen ? 'flex' : 'none',
         width: '100%',
-      }
+      },
     })}>
       <ul className={css({
         listStyle: 'none',
         margin: 0,
         padding: 0,
         width: '100%',
-        borderRight: '1px solid #C4C4C4'
+        borderRight: '1px solid #C4C4C4',
       })}>
-        <NavItem display="Home" icon={solid("house")} />
-        <NavItem display="Recent" icon={solid("rotate")} />
-        <NavItem display="Bookmarks" icon={solid("star")} />
+        <NavItem
+          display="Home"
+          link="/"
+          icon={solid("house")} />
+        <NavItem 
+          display="Recent"
+          link="/recent"
+          icon={solid("rotate")} />
+        <NavItem
+          display="Bookmarks"
+          link="/bookmarks"
+          icon={solid("star")} />
       </ul>
     </div>
   );

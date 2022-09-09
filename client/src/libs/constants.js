@@ -3,5 +3,5 @@ const STORE_PROPS = {
 };
 
 export {
-  STORE_PROPS
+  STORE_PROPS,
 };

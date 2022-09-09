@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStyletron } from 'styletron-react';
+import { FoldersSection } from './folders-section';
 import { Header } from './navigation/header';
 import { LeftNav } from './navigation/left-nav';
 
@@ -18,7 +19,7 @@ function Root() {
         height: 'calc(100vh - 72px)',
       })}>
         <LeftNav />
-        <div></div>
+        <FoldersSection />
       </div>
     </div>
   );

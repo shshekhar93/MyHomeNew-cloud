@@ -1,10 +1,12 @@
 import React from 'react';
 import { useStyletron } from 'styletron-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 function NavItem({
   icon,
-  display
+  link,
+  display,
 }) {
   const [ css ] = useStyletron();
 
@@ -13,10 +15,18 @@ function NavItem({
       padding: '10px 15px',
       ':hover': {
         backgroundColor: 'lightgray',
-        cursor: 'pointer'
-      }
+        cursor: 'pointer',
+      },
     })}>
-      {icon && 
+      <Link to={link} className={css({
+        color: '#000000',
+        textDecoration: 'none',
+
+        ':visited': {
+          color: '#000000',
+        },
+      })}>
+        {icon && 
         <FontAwesomeIcon
           icon={icon}
           className={css({
@@ -24,6 +34,7 @@ function NavItem({
           })} />
       }
       { display }
+      </Link>
     </li>
   );
 }
