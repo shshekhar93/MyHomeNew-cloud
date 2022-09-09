@@ -1,3 +1,5 @@
+import { createHmac } from 'crypto';
+
 /**
  * 
  * @param {arr} arr Array to iterate over
@@ -6,7 +8,7 @@
  */
 async function asyncMap(arr, fn, opts = {}) {
   const {
-    concurrency = 0
+    concurrency = 0,
   } = opts;
 
   if(concurrency === 0) {
@@ -23,7 +25,7 @@ async function asyncMap(arr, fn, opts = {}) {
     }
   }
   await Promise.all(
-    range(concurrency).map(() => evaluateNext(i++))
+    range(concurrency).map(() => evaluateNext(i++)),
   );
   return result;
 }
@@ -36,8 +38,23 @@ function delay(millis) {
   return new Promise((resolve) => setTimeout(resolve, millis));
 }
 
+function sha256(str, secret = 'Keyboard cat') {
+  const hasher = createHmac('sha256', secret);
+  return hasher.update(str).digest('hex');
+}
+
+function ensureTrailingSlash(path) {
+  if(path.endsWith('/')) {
+    return path;
+  }
+
+  return `${path}/`;
+}
+
 export {
   asyncMap,
   range,
-  delay
+  delay,
+  sha256,
+  ensureTrailingSlash,
 };

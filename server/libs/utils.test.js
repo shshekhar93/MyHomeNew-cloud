@@ -17,7 +17,7 @@ describe('Test asyncMap function', () => {
       
       activeCallCount--;
       return result;
-    }
+    };
   
     const getCallCount = () => callCount;
     const getMaxParallelCallCount = () => maxParallelCalls;
@@ -32,7 +32,7 @@ describe('Test asyncMap function', () => {
   const identityFnWithDelay = async (millis, value) => {
     await delay(millis);
     return value;
-  }
+  };
 
   test('Evaluates entire array parallely for concurrency 0', async () => {
     const {
@@ -42,7 +42,7 @@ describe('Test asyncMap function', () => {
     } = customSpy(identityFnWithDelay.bind(null, 1));
 
     const result = await asyncMap(TEST_ARRAY, spyFunction, {
-      concurrency: 0
+      concurrency: 0,
     });
 
     expect(result).toEqual(TEST_ARRAY);
@@ -72,7 +72,7 @@ describe('Test asyncMap function', () => {
     } = customSpy(identityFnWithDelay.bind(null, 1));
 
     const result = await asyncMap(TEST_ARRAY, spyFunction, {
-      concurrency: 2
+      concurrency: 2,
     });
 
     expect(result).toEqual(TEST_ARRAY);
@@ -92,5 +92,5 @@ describe('Test range function', () => {
 
   test('Honors the start value if provided', () => {
     expect(range(5, 100)).toEqual([100,101,102,103,104]);
-  })
-})
+  });
+});

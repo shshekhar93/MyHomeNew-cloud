@@ -1,0 +1,37 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true,
+    "jest/globals": true
+  },
+  "extends": "eslint:recommended",
+  "overrides": [
+  ],
+  "plugins": [ "jest" ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ]
+  }
+}

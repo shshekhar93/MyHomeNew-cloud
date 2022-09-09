@@ -5,7 +5,7 @@ const logger = createLogger({
   format: format.combine(
     format.timestamp(),
     format.errors({ stack: true }),
-    format.json()
+    format.json(),
   ),
   transports: [new transports.Console()],
 });
@@ -22,7 +22,7 @@ const requestFilter = (req, prop) => {
   }
 
   return Object.fromEntries(
-    Object.entries(req.headers).filter(([key]) => headersToPick.includes(key))
+    Object.entries(req.headers).filter(([key]) => headersToPick.includes(key)),
   );
 };
 
