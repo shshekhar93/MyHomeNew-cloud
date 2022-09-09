@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useStyletron } from 'styletron-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { useStore } from '../../libs/store';
+import { STORE_PROPS } from '../../libs/constants';
 
 function Header() {
   const [css] = useStyletron();
+  const [, rerenderer] = useState(0);
+  const store = useStore();
+  const isOpen = store.get(STORE_PROPS.NAV_OPEN);
+
+  const toggleLeftNav = useCallback(() => {
+    store.set(
+      STORE_PROPS.NAV_OPEN, 
+      !store.get(STORE_PROPS.NAV_OPEN)
+    );
+  }, [store]);
+
+  useEffect(() => {
+    const handler = () => rerenderer(Date.now());
+    store.subscribe(STORE_PROPS.NAV_OPEN, handler);
+
+    return () => store.unsubscribe(STORE_PROPS.NAV_OPEN, handler);
+  }, [store]);
+
   return (
     <div className={css({
       display: 'flex',
@@ -61,13 +81,27 @@ function Header() {
         display: 'none',
         padding: '0 0 0 10px',
         fontSize: '1.5rem',
-        cursor: 'pointer',
 
         '@media only screen and (max-width: 600px)': {
-          display: 'block'
+          display: 'flex',
+          alignItems: 'center',
         }
       })}>
-        <FontAwesomeIcon icon={solid('bars')} />
+        {isOpen?
+          <FontAwesomeIcon
+            icon={solid('xmark')}
+            className={css({
+              cursor: 'pointer',
+              fontSize: '2rem',
+            })}
+            onClick={toggleLeftNav} /> :
+          <FontAwesomeIcon
+            icon={solid('bars')}
+            className={css({
+              cursor: 'pointer',
+            })}
+            onClick={toggleLeftNav} />
+        }
       </div>
     </div>
   );
