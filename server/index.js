@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 (async () => {
   await useRoutes(app);
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 5000;
   app.listen(port, () => {
     logInfo(`App started on port ${port}`);
   });
