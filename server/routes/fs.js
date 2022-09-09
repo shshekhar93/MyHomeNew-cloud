@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  getShares,
   indexStatus,
   readdir,
   readfile,
@@ -9,11 +10,12 @@ import {
 
 const router = new Router();
 
-router.use('/refresh-index', refreshIndex);
-router.use('/index-status', indexStatus);
-router.use('/readdir', readdir);
-router.use('/readfile', readfile);
-router.use('/thumbnail', thumbnail);
+router.get('/refresh-index', refreshIndex);
+router.get('/index-status', indexStatus);
+router.get('/shares', getShares);
+router.get('/readdir', readdir);
+router.get('/readfile', readfile);
+router.get('/thumbnail', thumbnail);
 
 export {
   router,

@@ -1,3 +1,4 @@
+import { config } from '../../config/index.js';
 import { ERRORS, INDEX_STATUS } from '../../libs/constants.js';
 import { createIndex, isReady } from '../../libs/walker/index.js';
 import { getIndex } from './directories.js';
@@ -7,6 +8,15 @@ function refreshIndex(req, res) {
   res.json({
     status: INDEX_STATUS.IN_PROGRESS,
   });
+}
+
+async function getShares(req, res) {
+  const directories = Object.keys(config.directories)
+    .map(name => ({
+      name: `${name}$`,
+      path: `${name}$`,
+    }));
+  res.json({ directories });
 }
 
 async function readdir(req, res) {
@@ -46,6 +56,7 @@ function indexStatus(req, res) {
 
 export {
   refreshIndex,
+  getShares,
   readdir,
   readfile,
   thumbnail,
