@@ -48,10 +48,25 @@ function FolderContents() {
       userSelect: 'none',
     })}>
       {(contents.directories || []).map(({name}) => 
-        <FolderDisplay key={name} isFile={false} name={name} select={onSelect} />
+        <FolderDisplay
+          key={name}
+          isFile={false}
+          name={name}
+          category="directory"
+          select={onSelect} />
       )}
-      {(contents.files || []).map(({name}) => 
-        <FolderDisplay key={name} isFile={true} name={name} select={onSelect} />
+      {(contents.files || []).map(({
+        name,
+        category,
+        contentType,
+      }) => 
+        <FolderDisplay
+          key={name}
+          isFile={true}
+          name={name}
+          category={category}
+          contentType={contentType}
+          select={onSelect} />
       )}
     </div>
   );

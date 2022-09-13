@@ -2,12 +2,15 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useStyletron } from 'styletron-react';
+import { FileIcon } from './file-icon';
 
 export const FOLDER_DISPLAY_ROOT_MATCHER = '[data-type="folder-display"]';
 
 function FolderDisplay({
   isFile = false,
   name,
+  category,
+  contentType,
   select,
 }) {
   const [css] = useStyletron();
@@ -35,10 +38,7 @@ function FolderDisplay({
         display: 'flex',
         fontSize: '2rem',
       })}>
-        {isFile?
-          <FontAwesomeIcon icon={solid('file')} />:
-          <FontAwesomeIcon icon={solid('folder')} />
-        }
+        <FileIcon category={category} contentType={contentType} />
       </div>
       
       <div>{name}</div>

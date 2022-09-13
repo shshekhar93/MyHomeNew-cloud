@@ -42,10 +42,12 @@ function Shares() {
       userSelect: 'none',
     })}>
       {(shares.directories || []).map(({name}) => 
-        <FolderDisplay key={name} isFile={false} name={name} select={selectShare} />
-      )}
-      {(shares.files || []).map(({name}) => 
-        <FolderDisplay key={name} isFile={true} name={name} select={selectShare} />
+        <FolderDisplay
+          key={name}
+          isFile={false}
+          name={name}
+          category="directory"
+          select={selectShare} />
       )}
     </div>
   );
