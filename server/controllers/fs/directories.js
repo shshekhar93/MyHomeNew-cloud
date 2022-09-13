@@ -4,7 +4,7 @@ import { config } from '../../config/index.js';
 import { ERRORS } from '../../libs/constants.js';
 import { ensureTrailingSlash, sha256 } from '../../libs/utils.js';
 
-const SHARE_NAME_REGEX = /^(.+)\$\/(.+)$/;
+const SHARE_NAME_REGEX = /^(.+)\$(\/.*)$/;
 
 async function getIndex(path) {
   const {

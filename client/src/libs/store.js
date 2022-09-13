@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 class Store {
   #data = {};
@@ -50,8 +50,39 @@ function useStore() {
   return useContext(StoreContext);
 }
 
+/**
+ * 
+ * @param {string|string[]} storeProp 
+ * @returns 
+ */
+function useStoreValue(storeProp) {
+  const [, rerenderer] = useState(0);
+  const store = useStore();
+
+  const normalizedStoreProp = useMemo(() => {
+    if(!Array.isArray(storeProp)) {
+      return [ storeProp ];
+    }
+    return storeProp;
+  }, [storeProp]);
+
+  useEffect(() => {
+    const handler = () => rerenderer(Date.now());
+    store.subscribe(normalizedStoreProp, handler);
+
+    return () => store.unsubscribe(normalizedStoreProp, handler);
+  }, [store, normalizedStoreProp]);
+
+  const singleValue = storeProp !== normalizedStoreProp;
+
+  return singleValue?
+    store.get(storeProp) :
+    normalizedStoreProp.map(prop => store.get(prop));
+}
+
 export {
   Store,
   StoreContext,
   useStore,
+  useStoreValue,
 };
