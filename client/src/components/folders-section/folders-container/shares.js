@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useStyletron } from 'styletron-react';
 import { useShares } from '../../../api/use-shares';
-import { STORE_PROPS } from '../../../libs/constants';
-import { useStore } from '../../../libs/store';
 import { findParent } from '../../../libs/utils';
 import { FolderDisplay, FOLDER_DISPLAY_ROOT_MATCHER } from './display';
 
 function Shares() {
   const [css] = useStyletron();
-  const store = useStore();
+  const navigate = useNavigate();
 
   const [{
     loading = false,
@@ -19,9 +18,10 @@ function Shares() {
   const selectShare = useCallback((e) => {
     const realTarget = findParent(e.target, FOLDER_DISPLAY_ROOT_MATCHER);
     const name = realTarget.getAttribute('data-folder-name');
-    
-    store.set(STORE_PROPS.CUR_DIR, `${name}/`);
-  }, [store]);
+    const fullPath = encodeURIComponent(`${name}/`);
+
+    navigate(`/?path=${fullPath}`);
+  }, [navigate]);
 
   if(loading) {
     return 'Loading';

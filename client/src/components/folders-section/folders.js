@@ -6,13 +6,15 @@ import { Input } from '../shared/input';
 import { FolderContainer } from './folders-container';
 import { useStore, useStoreValue } from '../../libs/store';
 import { STORE_PROPS } from '../../libs/constants';
+import { useNavigate } from 'react-router-dom';
 
 function Folders() {
   const [css] = useStyletron();
   const store = useStore();
   const curDir = useStoreValue(STORE_PROPS.CUR_DIR);
+  const navigate = useNavigate();
 
-  const previousFolder = useCallback(() => {
+  const parentFolder = useCallback(() => {
     const curFolder = store.get(STORE_PROPS.CUR_DIR);
     const newFolder = (curFolder || '')
       .split('/')
@@ -20,9 +22,15 @@ function Folders() {
       .slice(0, -1)
       .concat('')
       .join('/');
+    const fullPath = encodeURIComponent(newFolder);
     
-    store.set(STORE_PROPS.CUR_DIR, newFolder);
-  }, [store]);
+    navigate(`/?path=${fullPath}`);
+  }, [store, navigate]);
+
+  // TODO: Limit previous page navigation to dir locations only.
+  const previousFolder = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
 
   return (
     <div className={css({
@@ -36,13 +44,21 @@ function Folders() {
         alignItems: 'center',
       })}>
         <FontAwesomeIcon
-          icon={solid('arrow-up')}
+          icon={solid('arrow-left')}
           className={css({
             marginRight: '1rem',
             fontSize: '1.5rem',
             cursor: 'pointer',
           })}
           onClick={previousFolder} />
+        <FontAwesomeIcon
+          icon={solid('arrow-up')}
+          className={css({
+            marginRight: '1rem',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+          })}
+          onClick={parentFolder} />
         <label htmlFor="current-path" className={css({
           marginRight: '1rem',
           fontSize: '1.5rem',

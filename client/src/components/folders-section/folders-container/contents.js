@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useStyletron } from 'styletron-react';
 import { useReaddir } from '../../../api/use-readdir';
 import { STORE_PROPS } from '../../../libs/constants';
@@ -9,6 +10,7 @@ import { FolderDisplay, FOLDER_DISPLAY_ROOT_MATCHER } from './display';
 function FolderContents() {
   const [css] = useStyletron();
   const store = useStore();
+  const navigate = useNavigate();
 
   const [{
     loading = false,
@@ -26,8 +28,9 @@ function FolderContents() {
     }
     
     const currentFolder = store.get(STORE_PROPS.CUR_DIR);
-    store.set(STORE_PROPS.CUR_DIR, `${currentFolder}${name}/`);
-  }, [store])
+    const fullPath = encodeURIComponent(`${currentFolder}${name}/`);
+    navigate(`/?path=${fullPath}`);
+  }, [store, navigate])
 
   if(loading) {
     return 'Loading';

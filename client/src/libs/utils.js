@@ -1,3 +1,6 @@
+import { useMemo } from "react";
+import { useLocation } from "react-router-dom";
+
 function findParent(element, parentMatcher) {
   const { body } = document;
 
@@ -12,6 +15,15 @@ function findParent(element, parentMatcher) {
   return null;
 }
 
+function useQuery() {
+  const { search } = useLocation();
+
+  return useMemo(() => {
+    return new URLSearchParams(search);
+  }, [search]);
+}
+
 export {
   findParent,
+  useQuery,
 };
