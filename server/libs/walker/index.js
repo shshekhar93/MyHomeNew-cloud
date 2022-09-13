@@ -4,6 +4,7 @@ import { readdir, writeFile  } from 'fs/promises';
 import { config } from '../../config/index.js';
 import { logError } from '../logger.js';
 import { sha256 } from '../utils.js';
+import { checkFileType } from '../plugins/file-types/index.js';
 
 let isWalking = false;
 
@@ -33,6 +34,10 @@ async function generateIndex(dir) {
         name,
         path: decodeURIComponent(new URL(name, dirURL).pathname),
       }));
+    
+    for(let file of files) {
+      Object.assign(file, await checkFileType(file.path));
+    }
 
     const index = {
       path: dirURL.pathname,
