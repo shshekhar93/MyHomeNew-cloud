@@ -9,8 +9,27 @@ const PAYLOAD_HEADERS = {
 
 const NO_PAYLOAD_METHODS = ['GET'];
 
+const CACHE_AVAILABLE = 'caches' in window;
+
+function isCacheable(method, headers) {
+  return CACHE_AVAILABLE
+    && method === HTTP_METHODS.GET
+    && (
+      !headers || Object.keys(headers) === 0
+    );
+}
+
 async function httpRequest(method, path, body, headers) {
   const sendPayload = !NO_PAYLOAD_METHODS.includes(method);
+  const cache = isCacheable(method, headers) && await window.caches.open('myhomenew-cloud');
+  if(cache) {
+    const resp = await cache.match(path);
+
+    if(resp) {
+      return resp.json();
+    }
+  }
+
   const resp = await fetch(path, {
     method,
     credentials: 'same-origin',
@@ -22,6 +41,10 @@ async function httpRequest(method, path, body, headers) {
   });
 
   if (resp.ok) {
+    // cache if possible
+    if(cache) {
+      await cache.put(path, resp.clone());
+    }
     return resp.json();
   }
 
