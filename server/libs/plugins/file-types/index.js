@@ -1,6 +1,4 @@
-import { readdirSync } from 'fs';
-import { dirname } from 'path';
-import { URL } from 'url';
+import { getAllOtherFilesInDir } from '../../utils.js';
 
 const DEFAULT_FILE_TYPE = {
   category: 'UNKNOWN',
@@ -9,15 +7,8 @@ const DEFAULT_FILE_TYPE = {
 
 let fileTypePlugins;
 
-function allFiles () {
-  const dir = dirname(import.meta.url);
-  
-  return readdirSync(new URL(dir))
-    .filter(name => name !== 'index.js');
-}
-
 async function initialize() {
-  const files = allFiles();
+  const files = getAllOtherFilesInDir(import.meta.url);
   fileTypePlugins = await Promise.all(
     files.map(file => import(`./${file}`)),
   );

@@ -1,4 +1,6 @@
-import { createHmac } from 'crypto';
+import { readdirSync } from 'fs';
+import { basename, dirname } from 'path';
+import { URL } from 'url';
 
 /**
  * 
@@ -6,7 +8,7 @@ import { createHmac } from 'crypto';
  * @param {Function} fn The function to be executed
  * @param {AsyncMapOptions} opts The options
  */
-async function asyncMap(arr, fn, opts = {}) {
+export async function asyncMap(arr, fn, opts = {}) {
   const {
     concurrency = 0,
   } = opts;
@@ -30,20 +32,15 @@ async function asyncMap(arr, fn, opts = {}) {
   return result;
 }
 
-function range(count, start = 1) {
+export function range(count, start = 1) {
   return Array(count).fill().map((_, idx) => start + idx);
 }
 
-function delay(millis) {
+export function delay(millis) {
   return new Promise((resolve) => setTimeout(resolve, millis));
 }
 
-function sha256(str, secret = 'Keyboard cat') {
-  const hasher = createHmac('sha256', secret);
-  return hasher.update(str).digest('hex');
-}
-
-function ensureTrailingSlash(path) {
+export function ensureTrailingSlash(path) {
   if(path.endsWith('/')) {
     return path;
   }
@@ -51,10 +48,25 @@ function ensureTrailingSlash(path) {
   return `${path}/`;
 }
 
-export {
-  asyncMap,
-  range,
-  delay,
-  sha256,
-  ensureTrailingSlash,
-};
+export function getAllOtherFilesInDir(filename) {
+  const dir = dirname(filename);
+  const file = basename(filename);
+
+  return readdirSync(new URL(dir))
+    .filter(name => name !== file);
+}
+
+export function fromCallback(fn) {
+  return new Promise((resolve, reject) => {
+    fn((err, result) => {
+      if(err) {
+        return reject(err);
+      }
+      resolve(result);
+    });
+  });
+}
+
+export function toCamelCase(str) {
+  return str.toLowerCase().replace(/[_]+(.)/g, (_, chr) => chr.toUpperCase());
+}

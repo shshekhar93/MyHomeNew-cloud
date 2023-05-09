@@ -3,11 +3,13 @@ import bodyParser from 'body-parser';
 import { logInfo } from './libs/logger.js';
 import { useRoutes } from './routes/index.js';
 import { initializePlugins } from './libs/plugins/index.js';
+import { initializeDB } from './libs/database/index.js';
 
 const app = express();
 app.use(bodyParser.json());
 
 (async () => {
+  await initializeDB();
   await initializePlugins();
   await useRoutes(app);
 

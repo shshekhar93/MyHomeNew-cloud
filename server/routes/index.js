@@ -1,16 +1,7 @@
-import { readdirSync } from 'fs';
-import { dirname } from 'path';
-import { URL } from 'url';
-
-function allFiles () {
-  const dir = dirname(import.meta.url);
-  
-  return readdirSync(new URL(dir))
-    .filter(name => name !== 'index.js');
-}
+import { getAllOtherFilesInDir } from '../libs/utils.js';
 
 async function useRoutes(app) {
-  const files = allFiles();
+  const files = getAllOtherFilesInDir(import.meta.url);
   const routes = await Promise.all(
     files.map(file => import(`./${file}`)),
   );

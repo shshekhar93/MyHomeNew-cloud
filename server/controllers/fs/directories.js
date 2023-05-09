@@ -1,14 +1,13 @@
-import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { config } from '../../config/index.js';
-import { ERRORS } from '../../libs/constants.js';
-import { ensureTrailingSlash, sha256 } from '../../libs/utils.js';
+import { ENTRY_TYPES, ERRORS } from '../../libs/constants.js';
+import { ensureTrailingSlash } from '../../libs/utils.js';
+import { getAllEntriesByPath } from '../../libs/database/index.js';
 
 const SHARE_NAME_REGEX = /^(.+)\$(\/.*)$/;
 
 async function getIndex(path) {
   const {
-    indexDir,
     directories,
   } = config;
   
@@ -24,13 +23,14 @@ async function getIndex(path) {
   }
   
   const fullPath = join(directories[share], relativePath);
-  const indexFilename = sha256(fullPath);
-  const indexPath = join(indexDir, indexFilename);
 
   try {
-    return JSON.parse(
-      await readFile(indexPath, 'utf8'),
-    );
+    const result = await getAllEntriesByPath(fullPath);
+    return {
+      path: fullPath,
+      directories: result.filter(({ type }) => type === ENTRY_TYPES.DIR),
+      files: result.filter(({ type }) => type === ENTRY_TYPES.FILE),
+    };
   }
   catch(e) {
     if(e.code === 'ENOENT') {

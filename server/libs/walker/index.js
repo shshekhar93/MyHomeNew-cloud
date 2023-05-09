@@ -1,10 +1,9 @@
 import { URL } from 'url';
-import { join } from 'path';
-import { readdir, writeFile  } from 'fs/promises';
+import { readdir  } from 'fs/promises';
 import { config } from '../../config/index.js';
 import { logError } from '../logger.js';
-import { sha256 } from '../utils.js';
 import { checkFileType } from '../plugins/file-types/index.js';
+import { insertDirEntry, insertFileEntry } from '../database/index.js';
 
 let isWalking = false;
 
@@ -22,40 +21,33 @@ async function generateIndex(dir) {
     });
 
     const directories = entries
-      .filter(e => e.isDirectory())
-      .map(({name}) => ({
+      .filter(e => e.isDirectory());
+    
+    for(const { name } of directories) {
+      await insertDirEntry({
         name,
-        path: decodeURIComponent(new URL(`${name}/`, dirURL).pathname),
-      }));
+        path: dirURL.pathname,
+      }).catch(
+        err => console.log(`Error while saving (${dirURL.pathname}${name}) :: ${err.code} :: ${err.message}`),
+      );
+    }
     
     const files = entries
-      .filter(e => e.isFile())
-      .map(({name}) => ({
-        name,
-        path: decodeURIComponent(new URL(name, dirURL).pathname),
-      }));
+      .filter(e => e.isFile());
     
-    for(let file of files) {
-      Object.assign(file, await checkFileType(file.path));
+    for(const { name } of files) {
+      const fileType = await checkFileType(decodeURIComponent(new URL(`${name}/`, dirURL).pathname));
+      await insertFileEntry({
+        ...fileType,
+        name,
+        path: dirURL.pathname,
+      }).catch(
+        err => console.log(`Error while saving (${dirURL.pathname}${name}) :: ${err.code} :: ${err.message}`),
+      );
     }
 
-    const index = {
-      path: dirURL.pathname,
-      directories,
-      files,
-    };
-
-    const indexFilename = sha256(decodeURIComponent(dirURL.pathname));
-    const indexPath = new URL(join(config.indexDir, indexFilename), import.meta.url);
-    const indexData = JSON.stringify(index);
-
-    // TODO: add retry capability
-    await writeFile(indexPath, indexData, {
-      encoding: 'utf8',
-    });
-
-    for(let directory of directories) {
-      await generateIndex(directory.path);
+    for(let { name } of directories) {
+      await generateIndex(decodeURIComponent(new URL(`${name}/`, dirURL).pathname));
     }
   }
   catch(e) {
