@@ -4,7 +4,10 @@
   "description": "Cloud application in MyHomeNew series",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "(cd client && npm install); (cd server && npm install)",
+    "build": "./scripts/build.sh",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,13 @@
   "bugs": {
     "url": "https://github.com/shshekhar93/MyHomeNew-cloud/issues"
   },
-  "homepage": "https://github.com/shshekhar93/MyHomeNew-cloud#readme"
+  "homepage": "https://github.com/shshekhar93/MyHomeNew-cloud#readme",
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
+  }
 }
