@@ -8,7 +8,8 @@ class Store {
   #eventHandlers = {};
 
   get(key, defaultValue = null) {
-    return this.#data[key] || defaultValue;
+    const result = this.#data[key];
+    return (result === undefined || result === null) ? defaultValue : result;
   }
 
   set(key, value) {

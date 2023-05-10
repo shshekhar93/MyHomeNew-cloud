@@ -3,6 +3,7 @@ import { useStyletron } from 'styletron-react';
 import { FoldersSection } from './folders-section';
 import { Header } from './navigation/header';
 import { LeftNav } from './navigation/left-nav';
+import { Viewer } from './viewer';
 
 function Root() {
   const [css] = useStyletron();
@@ -20,6 +21,7 @@ function Root() {
       })}>
         <LeftNav />
         <FoldersSection />
+        <Viewer />
       </div>
     </div>
   );

@@ -2,10 +2,12 @@ import { useParams } from "react-router-dom";
 import { useFilesByCategory } from "../../api/use-files-by-category";
 import { useStyletron } from "styletron-react";
 import { FolderDisplay } from "./folders-container/display";
+import { useFileActions } from "../../libs/use-file-actions";
 
 export function FilesByCategory() {
   let { category } = useParams();
   const [css] = useStyletron();
+  const [openFile] = useFileActions();
   const [{
     loading = false,
     error = false,
@@ -34,14 +36,14 @@ export function FilesByCategory() {
         name,
         category,
         contentType,
-      }) => 
+      }, index) => 
         <FolderDisplay
           key={name}
           isFile={true}
           name={name}
           category={category}
           contentType={contentType}
-          select={() => {}} />
+          select={() => openFile(result, index)} />
       )}
     </div>
   )

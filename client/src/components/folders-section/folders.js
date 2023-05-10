@@ -7,6 +7,7 @@ import { FolderContainer } from './folders-container';
 import { useStore, useStoreValue } from '../../libs/store';
 import { STORE_PROPS } from '../../libs/constants';
 import { useNavigate } from 'react-router-dom';
+import { accessibleClickProps } from '../../libs/utils';
 
 function Folders() {
   const [css] = useStyletron();
@@ -44,21 +45,23 @@ function Folders() {
         alignItems: 'center',
       })}>
         <FontAwesomeIcon
+          tabIndex="0"
           icon={solid('arrow-left')}
           className={css({
             marginRight: '1rem',
             fontSize: '1.5rem',
             cursor: 'pointer',
           })}
-          onClick={previousFolder} />
+          {...accessibleClickProps(previousFolder)} />
         <FontAwesomeIcon
+          tabIndex="0"
           icon={solid('arrow-up')}
           className={css({
             marginRight: '1rem',
             fontSize: '1.5rem',
             cursor: 'pointer',
           })}
-          onClick={parentFolder} />
+          {...accessibleClickProps(parentFolder)} />
         <label htmlFor="current-path" className={css({
           marginRight: '1rem',
           fontSize: '1.5rem',

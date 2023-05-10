@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStyletron } from 'styletron-react';
 import { FileIcon } from './file-icon';
+import { accessibleClickProps } from '../../../libs/utils';
 
 export const FOLDER_DISPLAY_ROOT_MATCHER = '[data-type="folder-display"]';
 
@@ -15,6 +16,7 @@ function FolderDisplay({
 
   return (
     <div
+      tabIndex="0"
       className={css({
         display: 'inline-flex',
         flexDirection: 'column',
@@ -26,11 +28,15 @@ function FolderDisplay({
         overflow: 'hidden',
         wordBreak: 'break-all',
         textAlign: 'center',
+
+        ':focus': {
+          outline: '-webkit-focus-ring-color auto 1px',
+        },
       })}
       data-type="folder-display"
       data-folder-name={name}
       data-is-file={isFile}
-      onDoubleClick={select}
+      {...accessibleClickProps(select, true)}
     >
       <div className={css({
         display: 'flex',
