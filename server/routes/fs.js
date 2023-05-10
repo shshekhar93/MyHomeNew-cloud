@@ -18,7 +18,7 @@ router.get('/shares', getShares);
 router.get('/readdir', readdir);
 router.get('/category/:category', getFilesByCategory);
 router.get('/tag/:tag', getFilesByTag);
-router.get('/readfile', readfile);
+router.get('/file/by-id/:id', readfile);
 router.get('/thumbnail', thumbnail);
 
 export {

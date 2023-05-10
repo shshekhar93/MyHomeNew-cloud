@@ -102,6 +102,21 @@ export const INSERT_FILE_ENTRY_QUERY = `
   )
 `;
 
+export const GET_ENTRY_BY_ID = `
+  SELECT
+    ID,
+    NAME,
+    PATH,
+    TYPE,
+    CATEGORY,
+    CONTENT_TYPE,
+    GROUP_CONCAT(TG.TAG) as TAGS
+  FROM ENTRIES EN LEFT OUTER JOIN TAGS TG ON EN.ID=TG.ENTRY_ID
+  WHERE ID=?
+  GROUP BY 1,2,3,4,5,6
+  ORDER BY ID ASC
+`;
+
 export const GET_ENTRIES_BY_PATH = `
   SELECT
     ID,

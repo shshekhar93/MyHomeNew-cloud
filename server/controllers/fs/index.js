@@ -1,6 +1,8 @@
+import { join } from 'path';
+import { createReadStream } from 'fs';
 import { config } from '../../config/index.js';
-import { ERRORS, INDEX_STATUS } from '../../libs/constants.js';
-import { getAllFilesByCategory, getAllFilesByTag } from '../../libs/database/index.js';
+import { ENTRY_TYPES, ERRORS, INDEX_STATUS } from '../../libs/constants.js';
+import { getAllFilesByCategory, getAllFilesByTag, getEntryById } from '../../libs/database/index.js';
 import { createIndex, isReady } from '../../libs/walker/index.js';
 import { getIndex } from './directories.js';
 
@@ -63,8 +65,26 @@ function thumbnail(req, res) {
   res.json({});
 }
 
-function readfile(req, res) {
-  res.json({});
+async function readfile(req, res) {
+  const { id } = req.params;
+  const entry = await getEntryById(id);
+
+  if(!entry || entry.type !== ENTRY_TYPES.FILE) {
+    return res.status(400).json({
+      error: ERRORS.NOT_FOUND,
+    });
+  }
+  
+  try {
+    const stream = createReadStream(join(entry.path, entry.name));
+    stream.pipe(res);
+  }
+  catch(e) {
+    // log error
+    return res.status(500).json({
+      error: ERRORS.SYSTEM_ERROR,
+    });
+  }
 }
 
 function indexStatus(req, res) {
