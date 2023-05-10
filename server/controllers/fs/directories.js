@@ -6,7 +6,7 @@ import { getAllEntriesByPath } from '../../libs/database/index.js';
 
 const SHARE_NAME_REGEX = /^(.+)\$(\/.*)$/;
 
-async function getIndex(path) {
+export async function getIndex(path) {
   const {
     directories,
   } = config;
@@ -39,7 +39,3 @@ async function getIndex(path) {
     throw e;
   }
 }
-
-export {
-  getIndex,
-};

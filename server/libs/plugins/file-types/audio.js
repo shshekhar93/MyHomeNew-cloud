@@ -30,7 +30,7 @@ function byMagic(/*path*/) {
   return null;
 }
 
-function check(path) {
+export function check(path) {
   const result = byMagic(path);
   if(result) {
     return result;
@@ -38,7 +38,3 @@ function check(path) {
 
   return byExtension(path);
 }
-
-export {
-  check,
-};

@@ -2,6 +2,7 @@ const STORE_PROPS = {
   NAV_OPEN: 'nav-open',
   SHARES: 'shares',
   CUR_DIR: 'cur-dir',
+  FILES_BY_CATEGORY: 'files-by-category',
 };
 
 const ERRORS = {

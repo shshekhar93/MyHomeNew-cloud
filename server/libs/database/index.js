@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { config } from '../../config/index.js';
 import { fromCallback, toCamelCase } from '../utils.js';
-import { GET_ENTRIES_BY_PATH, INSERT_DIR_ENTRY_QUERY, INSERT_FILE_ENTRY_QUERY, SETUP_QUERIES } from './queries.js';
+import { GET_FILES_BY_CATEGORY, GET_ENTRIES_BY_PATH, INSERT_DIR_ENTRY_QUERY, INSERT_FILE_ENTRY_QUERY, SETUP_QUERIES, GET_FILES_BY_TAG } from './queries.js';
 
 const sqlite = sqlite3.verbose();
 const DB_PATH = `${config.indexDir}db.sqlite3`;
@@ -71,4 +71,12 @@ export async function insertFileEntry({
 
 export async function getAllEntriesByPath(path) {
   return all(GET_ENTRIES_BY_PATH, [path]);
+}
+
+export async function getAllFilesByCategory(category) {
+  return all(GET_FILES_BY_CATEGORY, [category]);
+}
+
+export async function getAllFilesByTag(tag) {
+  return all(GET_FILES_BY_TAG, [tag]);
 }

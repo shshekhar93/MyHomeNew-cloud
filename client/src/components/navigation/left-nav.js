@@ -20,13 +20,18 @@ function LeftNav() {
 
   return (
     <div className={css({
-      display: 'flex',
-      height: '100%',
-      width: '200px',
+      position: 'absolute',
+      display: isOpen? 'flex': 'none',
+      width: '100%',
+      top: '72px',
+      bottom: 0,
+      backgroundColor: 'white',
 
-      '@media only screen and (max-width: 600px)': {
-        display: isOpen ? 'flex' : 'none',
-        width: '100%',
+      '@media only screen and (min-width: 600px)': {
+        position: 'static',
+        display: 'flex',
+        height: '100%',
+        width: '200px',
       },
     })}>
       <ul className={css({
@@ -44,6 +49,22 @@ function LeftNav() {
           display="Recent"
           link="/recent"
           icon={solid("rotate")} />
+        <NavItem 
+          display="Photos"
+          link="/category/IMAGE"
+          icon={solid("image")} />
+        <NavItem 
+          display="Music"
+          link="/category/AUDIO"
+          icon={solid("music")} />
+          <NavItem 
+            display="Videos"
+            link="/category/VIDEO"
+            icon={solid("video")} />
+        <NavItem 
+          display="Documents"
+          link="/category/DOCUMENT"
+          icon={solid("file-word")} />
         <NavItem
           display="Bookmarks"
           link="/bookmarks"

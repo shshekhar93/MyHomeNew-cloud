@@ -1,5 +1,6 @@
 import { config } from '../../config/index.js';
 import { ERRORS, INDEX_STATUS } from '../../libs/constants.js';
+import { getAllFilesByCategory, getAllFilesByTag } from '../../libs/database/index.js';
 import { createIndex, isReady } from '../../libs/walker/index.js';
 import { getIndex } from './directories.js';
 
@@ -36,6 +37,26 @@ async function readdir(req, res) {
       error: e.code || e.message,
     });
   }
+}
+
+export async function getFilesByCategory(req, res) {
+  const category = req.params.category;
+  if(!category) {
+    return res.status(400).json({
+      error: ERRORS.NOT_FOUND,
+    });
+  }
+  res.json(await getAllFilesByCategory(category));
+}
+
+export async function getFilesByTag(req, res) {
+  const tag = req.params.tag;
+  if(!tag) {
+    return res.status(400).json({
+      error: ERRORS.NOT_FOUND,
+    });
+  }
+  res.json(await getAllFilesByTag(tag));
 }
 
 function thumbnail(req, res) {
