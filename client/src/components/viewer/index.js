@@ -1,4 +1,3 @@
-import { useStyletron } from 'styletron-react';
 import { useSelectedFile } from "../../libs/use-file-actions";
 import { Gallery } from "./gallery";
 import { ViewerWrapper } from './wrapper';
@@ -14,6 +13,7 @@ const MissingViewer = ({ name }) => {
 const getComponentForFile = ({ category }) => {
   switch(category) {
     case 'IMAGE':
+    case 'VIDEO':
       return Gallery;
     default:
       return MissingViewer;

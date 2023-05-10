@@ -9,7 +9,7 @@ const VIDEO_EXTENSIONS_MAP = {
   '.webm': 'video/webm',
   '.3gp': 'video/3gpp',
   '.3g2': 'video/3gpp2',
-  '.mkv': 'video/mp4',
+  '.mkv': 'video/webm',
 };
 
 function byExtension(path) {

@@ -77,6 +77,11 @@ async function readfile(req, res) {
   
   try {
     const stream = createReadStream(join(entry.path, entry.name));
+    
+    if(entry.contentType) {
+      res.set('Content-Type', entry.contentType);
+    }
+
     stream.pipe(res);
   }
   catch(e) {

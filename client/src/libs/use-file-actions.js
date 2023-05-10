@@ -37,7 +37,7 @@ export const useSelectedFile = () => {
     FILE_PROPS.forEach(prop => store.subscribe(prop, handler));
 
     return () => FILE_PROPS.forEach(prop => store.unsubscribe(prop, handler));
-  }, []);
+  }, [store]);
 
   return [
     store.get(STORE_PROPS.FILES_ARRAY),
