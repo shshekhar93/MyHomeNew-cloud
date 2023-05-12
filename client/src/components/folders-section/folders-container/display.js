@@ -7,6 +7,7 @@ export const FOLDER_DISPLAY_ROOT_MATCHER = '[data-type="folder-display"]';
 
 function FolderDisplay({
   isFile = false,
+  id,
   name,
   category,
   contentType,
@@ -42,7 +43,7 @@ function FolderDisplay({
         display: 'flex',
         fontSize: '2rem',
       })}>
-        <FileIcon category={category} contentType={contentType} />
+        <FileIcon id={id} category={category} contentType={contentType} />
       </div>
       
       <div>{name}</div>

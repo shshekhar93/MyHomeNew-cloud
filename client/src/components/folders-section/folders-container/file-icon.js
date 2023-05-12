@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { useStyletron } from 'styletron-react';
 
 const DIRECTORY_ICON = solid('folder');
 
@@ -24,6 +25,20 @@ const CATEGORY_ICON_MAP = {
   DOCUMENT: solid('file-lines'),
   UNKNOWN: solid('file'),
 }
+const THUMBNAIL_ENABLED_CATEGORIES = [
+  'IMAGE',
+];
+
+const ICON_OVER_THUMBS_STYLE = {
+  position: 'absolute',
+  bottom: 0,
+  right: 0,
+  background: 'white',
+  padding: '1px 3px',
+  borderRadius: '3px',
+  borderBottomRightRadius: 'unset',
+  fontSize: '1rem',
+};
 
 const mapper = (category, type) => {
   if(category === 'directory') {
@@ -37,13 +52,30 @@ const mapper = (category, type) => {
   );
 };
 
-function FileIcon({ category, contentType }) {
+function FileIcon({ id, category, contentType }) {
+  const [css] = useStyletron();
   const icon = useMemo(
     () => mapper(category, contentType),
     [category, contentType]
   );
+
+  const displayThumbnail = THUMBNAIL_ENABLED_CATEGORIES.includes(category);
   
-  return <FontAwesomeIcon icon={icon} />
+  return (
+    <div className={css({
+      position: 'relative',
+    })}>
+      {displayThumbnail && 
+        <img
+          alt=""
+          src={`/thumbnail/by-id/${id}`}
+          className={css({
+            maxHeight: '40px',
+          })} />
+      }
+      <FontAwesomeIcon icon={icon} className={css(displayThumbnail ? ICON_OVER_THUMBS_STYLE : {})} />
+    </div>
+  );
 }
 
 export { FileIcon };

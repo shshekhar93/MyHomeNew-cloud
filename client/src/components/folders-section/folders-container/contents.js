@@ -76,6 +76,7 @@ function FolderContents() {
           select={onSelect} />
       )}
       {(files || []).map(({
+        id, 
         name,
         category,
         contentType,
@@ -83,6 +84,7 @@ function FolderContents() {
         <FolderDisplay
           key={name}
           isFile={true}
+          id={id}
           name={name}
           category={category}
           contentType={contentType}
