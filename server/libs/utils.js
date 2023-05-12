@@ -1,4 +1,5 @@
 import { readdirSync } from 'fs';
+import { createHash } from 'crypto';
 import { basename, dirname } from 'path';
 import { URL } from 'url';
 
@@ -69,4 +70,10 @@ export function fromCallback(fn) {
 
 export function toCamelCase(str) {
   return str.toLowerCase().replace(/[_]+(.)/g, (_, chr) => chr.toUpperCase());
+}
+
+export function md5(str) {
+  return createHash('md5')
+    .update(str)
+    .digest('hex');
 }

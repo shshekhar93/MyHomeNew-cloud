@@ -5,6 +5,8 @@ import { ENTRY_TYPES, ERRORS, INDEX_STATUS } from '../../libs/constants.js';
 import { getAllFilesByCategory, getAllFilesByTag, getEntryById } from '../../libs/database/index.js';
 import { createIndex, isReady } from '../../libs/walker/index.js';
 import { getIndex } from './directories.js';
+import { md5 } from '../../libs/utils.js';
+import { createThumbnail } from '../../libs/file-processors/thumbnail.js';
 
 function refreshIndex(req, res) {
   createIndex();
@@ -61,15 +63,45 @@ export async function getFilesByTag(req, res) {
   res.json(await getAllFilesByTag(tag));
 }
 
-function thumbnail(req, res) {
-  res.json({});
+async function thumbnail(req, res) {
+  const id = req.params.id;
+  if(!id) {
+    return res.status(400).json({
+      error: ERRORS.NOT_FOUND,
+    });
+  }
+
+  const entry = await getEntryById(id);
+  if(entry?.type !== ENTRY_TYPES.FILE || entry?.category !== 'IMAGE') {
+    return res.status(400).json({
+      error: ERRORS.NOT_FOUND,
+    });
+  }
+  const fullPath = join(entry.path, entry.name);
+  const thumbnailPath = join(config.indexDir, 'thumbnails', md5(fullPath));
+
+  const fileStream = createReadStream(thumbnailPath);
+  fileStream.on('error', async (err) => {
+    if(err.code === 'ENOENT') {
+      const thumbnailBuf = await createThumbnail(fullPath, thumbnailPath);
+      res.set('Content-Type', 'image/webp');
+      res.send(thumbnailBuf);
+      return;
+    }
+    //Log error first.
+    res.status(500).json({
+      error: ERRORS.SYSTEM_ERROR,
+    });
+  });
+
+  fileStream.pipe(res);
 }
 
 async function readfile(req, res) {
   const { id } = req.params;
   const entry = await getEntryById(id);
 
-  if(!entry || entry.type !== ENTRY_TYPES.FILE) {
+  if(entry?.type !== ENTRY_TYPES.FILE) {
     return res.status(400).json({
       error: ERRORS.NOT_FOUND,
     });

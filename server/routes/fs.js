@@ -19,7 +19,7 @@ router.get('/readdir', readdir);
 router.get('/category/:category', getFilesByCategory);
 router.get('/tag/:tag', getFilesByTag);
 router.get('/file/by-id/:id', readfile);
-router.get('/thumbnail', thumbnail);
+router.get('/thumbnail/by-id/:id', thumbnail);
 
 export {
   router,
