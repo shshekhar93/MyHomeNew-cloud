@@ -5,11 +5,13 @@ export function Gallery({
 }) {
   const [css] = useStyletron();
   return (
-    <div className={css({
+    <div tabIndex="0" className={css({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      height: '100%',
+      maxHeight: 'calc(100% - 97px)', // carousel height
+      flex: 1, 
+      padding: '0.675rem 0.675rem 0',
     })}>
       {file.category === 'VIDEO' && <VideoPlayer id={file.id} />}
       {file.category === 'IMAGE' && <ImageViewer id={file.id} name={file.name} />}
@@ -24,8 +26,8 @@ function ImageViewer({ id, name }) {
       src={`/file/by-id/${id}`}
       alt={name}
       style={{
-        maxHeight: 'calc(100vh - 70px)',
-        maxWidth: 'calc(100vw - 25px)',
+        maxHeight: '100%',
+        maxWidth: '100%',
       }} />
   );
 }

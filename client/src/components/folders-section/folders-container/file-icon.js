@@ -35,8 +35,9 @@ const ICON_OVER_THUMBS_STYLE = {
   right: 0,
   background: 'white',
   padding: '1px 3px',
-  borderRadius: '3px',
-  borderBottomRightRadius: 'unset',
+  borderTopLeftRadius: '3px',
+  borderTopRightRadius: '3px',
+  borderBottomLeftRadius: '3px',
   fontSize: '1rem',
 };
 
@@ -52,7 +53,7 @@ const mapper = (category, type) => {
   );
 };
 
-function FileIcon({ id, category, contentType }) {
+function FileIcon({ id, category, contentType, maxHeight = 40, selected }) {
   const [css] = useStyletron();
   const icon = useMemo(
     () => mapper(category, contentType),
@@ -64,13 +65,14 @@ function FileIcon({ id, category, contentType }) {
   return (
     <div className={css({
       position: 'relative',
+      transform: selected ? 'scale(0.9)' : undefined,
     })}>
       {displayThumbnail && 
         <img
           alt=""
           src={`/thumbnail/by-id/${id}`}
           className={css({
-            maxHeight: '40px',
+            maxHeight: `${maxHeight}px`,
           })} />
       }
       <FontAwesomeIcon icon={icon} className={css(displayThumbnail ? ICON_OVER_THUMBS_STYLE : {})} />

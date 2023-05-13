@@ -3,13 +3,25 @@ import FocusTrap from 'focus-trap-react';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { accessibleClickProps } from "../../libs/utils";
+import { useCallback } from "react";
 
 export function ViewerWrapper({
   title,
   onClose,
+  onNext,
+  onPrev,
   children,
 }) {
   const [css] = useStyletron();
+
+  const onKeyUp = useCallback(e => {
+    switch(e.code) {
+      case 'ArrowRight':
+        return onNext();
+      case 'ArrowLeft': 
+        return onPrev();
+    }
+  }, [onNext, onPrev])
 
   return (
     <FocusTrap>
@@ -22,7 +34,7 @@ export function ViewerWrapper({
         display:'flex',
         flexDirection: 'column',
         backgroundColor: 'white',
-      })}>
+      })} onKeyUp={onKeyUp}>
         <header className={css({
           display: 'flex',
           justifyContent: 'space-between',
@@ -50,8 +62,10 @@ export function ViewerWrapper({
           </span>
         </header>
         <content className={css({
+          display: 'flex',
+          flexDirection: 'column',
           flex: 1,
-          padding: '0.675rem',
+          maxHeight: 'calc(100vh - 46px)',
         })}>
           {children}
         </content>

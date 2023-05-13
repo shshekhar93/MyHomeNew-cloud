@@ -33,6 +33,7 @@ export function FilesByCategory() {
       userSelect: 'none',
     })}>
       {result.map(({
+        id,
         name,
         category,
         contentType,
@@ -41,6 +42,7 @@ export function FilesByCategory() {
           key={name}
           isFile={true}
           name={name}
+          id={id}
           category={category}
           contentType={contentType}
           select={() => openFile(result, index)} />
