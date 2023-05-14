@@ -20,6 +20,8 @@ export function ViewerWrapper({
         return onNext();
       case 'ArrowLeft': 
         return onPrev();
+      default:
+        return;
     }
   }, [onNext, onPrev])
 
@@ -34,6 +36,7 @@ export function ViewerWrapper({
         display:'flex',
         flexDirection: 'column',
         backgroundColor: 'white',
+        zIndex: 1000,
       })} onKeyUp={onKeyUp}>
         <header className={css({
           display: 'flex',
