@@ -34,7 +34,14 @@ function ImageViewer({ id, name }) {
 
 function VideoPlayer({ id }) {
   return (
-    <video controls>
+    <video
+      key={id}
+      controls
+      style={{
+        maxHeight: '100%',
+        maxWidth: '100%',
+      }}
+    >
       <source src={`/file/by-id/${id}`} />
     </video>
   );
