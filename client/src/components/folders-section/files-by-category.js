@@ -3,6 +3,7 @@ import { useFilesByCategory } from "../../api/use-files-by-category";
 import { useStyletron } from "styletron-react";
 import { FolderDisplay } from "./folders-container/display";
 import { useFileActions } from "../../libs/use-file-actions";
+import { useKeyboardNavForEntries } from "../../libs/folder-utils";
 
 export function FilesByCategory() {
   let { category } = useParams();
@@ -13,6 +14,8 @@ export function FilesByCategory() {
     error = false,
     result = [],
   }] = useFilesByCategory(category);
+
+  useKeyboardNavForEntries();
 
   if(loading) {
     return 'Loading';

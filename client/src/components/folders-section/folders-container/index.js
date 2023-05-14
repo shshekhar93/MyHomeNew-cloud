@@ -4,6 +4,7 @@ import { useStore, useStoreValue } from '../../../libs/store';
 import { useQuery } from '../../../libs/utils';
 import { FolderContents } from './contents';
 import { Shares } from './shares';
+import { useKeyboardNavForEntries } from '../../../libs/folder-utils';
 
 function FolderContainer() {
   const store = useStore();
@@ -13,6 +14,8 @@ function FolderContainer() {
   useEffect(() => {
     store.set(STORE_PROPS.CUR_DIR, queryPath);
   }, [store, queryPath]);
+
+  useKeyboardNavForEntries();
 
   if(!curDir) {
     return <Shares />;

@@ -2,8 +2,7 @@ import React from 'react';
 import { useStyletron } from 'styletron-react';
 import { FileIcon } from './file-icon';
 import { accessibleClickProps } from '../../../libs/utils';
-
-export const FOLDER_DISPLAY_ROOT_MATCHER = '[data-type="folder-display"]';
+import { DATA_TYPE_ATTR, ENTRY_TYPE_VALUE } from '../../../libs/folder-utils';
 
 function FolderDisplay({
   isFile = false,
@@ -34,7 +33,11 @@ function FolderDisplay({
           outline: '-webkit-focus-ring-color auto 1px',
         },
       })}
-      data-type="folder-display"
+      {
+        ...{
+          [DATA_TYPE_ATTR]: ENTRY_TYPE_VALUE,
+        }
+      }
       data-folder-name={name}
       data-is-file={isFile}
       {...accessibleClickProps(select, true)}

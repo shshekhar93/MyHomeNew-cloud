@@ -5,8 +5,9 @@ import { useReaddir } from '../../../api/use-readdir';
 import { STORE_PROPS } from '../../../libs/constants';
 import { useStore } from '../../../libs/store';
 import { findParent } from '../../../libs/utils';
-import { FolderDisplay, FOLDER_DISPLAY_ROOT_MATCHER } from './display';
+import { FolderDisplay } from './display';
 import { useFileActions } from '../../../libs/use-file-actions';
+import { ENTRY_ELEM_MATCHER, getFirstEntryElement } from '../../../libs/folder-utils';
 
 function FolderContents() {
   const [css] = useStyletron();
@@ -28,11 +29,12 @@ function FolderContents() {
       return;
     }
 
-    document.querySelector('[data-type="folder-display"]').focus();
+    const firstEntry = getFirstEntryElement();
+    firstEntry && firstEntry.focus();
   }, [files, directories]);
 
   const onSelect = useCallback((e) => {
-    const realTarget = findParent(e.target, FOLDER_DISPLAY_ROOT_MATCHER);
+    const realTarget = findParent(e.target, ENTRY_ELEM_MATCHER);
     const name = realTarget.getAttribute('data-folder-name');
     const isFile = realTarget.getAttribute('data-is-file') === 'true';
 
@@ -47,7 +49,7 @@ function FolderContents() {
     const currentFolder = store.get(STORE_PROPS.CUR_DIR);
     const fullPath = encodeURIComponent(`${currentFolder}${name}/`);
     navigate(`/?path=${fullPath}`);
-  }, [store, files, openFile, navigate])
+  }, [store, files, openFile, navigate]);
 
   if(loading) {
     return 'Loading';

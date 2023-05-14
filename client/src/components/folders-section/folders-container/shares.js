@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useStyletron } from 'styletron-react';
 import { useShares } from '../../../api/use-shares';
 import { findParent } from '../../../libs/utils';
-import { FolderDisplay, FOLDER_DISPLAY_ROOT_MATCHER } from './display';
+import { FolderDisplay } from './display';
+import { ENTRY_ELEM_MATCHER } from '../../../libs/folder-utils';
 
 function Shares() {
   const [css] = useStyletron();
@@ -16,7 +17,7 @@ function Shares() {
   }] = useShares();
 
   const selectShare = useCallback((e) => {
-    const realTarget = findParent(e.target, FOLDER_DISPLAY_ROOT_MATCHER);
+    const realTarget = findParent(e.target, ENTRY_ELEM_MATCHER);
     const name = realTarget.getAttribute('data-folder-name');
     const fullPath = encodeURIComponent(`${name}/`);
 
