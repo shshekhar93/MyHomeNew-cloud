@@ -11,11 +11,20 @@ const MissingViewer = ({ name }) => {
   )
 }
 
+let DocumentViewer = MissingViewer;
+
+// Split DocumentViewer into a separate bundle
+(async () => {
+  DocumentViewer = (await import('./document')).DocumentViewer;
+})();
+
 const getComponentForFile = ({ category }) => {
   switch(category) {
     case 'IMAGE':
     case 'VIDEO':
       return Gallery;
+    case 'DOCUMENT':
+      return DocumentViewer;
     default:
       return MissingViewer;
   }

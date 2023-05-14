@@ -19,7 +19,7 @@ export function Carousel({
           category,
           contentType,
         }, idx) =>
-          <div className={css({
+          <div key={id} className={css({
             marginRight: '1rem',
             width: '120px',
             display: 'flex',
