@@ -5,9 +5,11 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useStore } from '../../libs/store';
 import { STORE_PROPS } from '../../libs/constants';
 import { Input } from '../shared/input';
+import { useLocation } from 'react-router-dom';
 
 function Header() {
   const [css] = useStyletron();
+  const { pathname } = useLocation();
   const [, rerenderer] = useState(0);
   const store = useStore();
   const isOpen = store.get(STORE_PROPS.NAV_OPEN);
@@ -18,6 +20,11 @@ function Header() {
       !store.get(STORE_PROPS.NAV_OPEN)
     );
   }, [store]);
+
+  // Close menu on navigation.
+  useEffect(() => {
+    store.set(STORE_PROPS.NAV_OPEN, false);
+  }, [store, pathname]);
 
   useEffect(() => {
     const handler = () => rerenderer(Date.now());

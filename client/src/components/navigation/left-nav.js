@@ -26,6 +26,7 @@ function LeftNav() {
       top: '72px',
       bottom: 0,
       backgroundColor: 'white',
+      zIndex: 999,
 
       '@media only screen and (min-width: 600px)': {
         position: 'static',
