@@ -3,7 +3,8 @@ import { readdir  } from 'fs/promises';
 import { config } from '../../config/index.js';
 import { logError } from '../logger.js';
 import { checkFileType } from '../plugins/file-types/index.js';
-import { insertDirEntry, insertFileEntry } from '../database/index.js';
+import { insertDirEntry, insertFileEntry, updateAppSetting } from '../database/index.js';
+import { APP_SETTINGS } from '../constants.js';
 
 let isWalking = false;
 
@@ -65,6 +66,9 @@ async function createIndex() {
   for(let directory of Object.values(directories)) {
     await generateIndex(directory);
   }
+
+  const refreshFinishedAt = String(Math.floor(Date.now() / 1000));
+  await updateAppSetting(APP_SETTINGS.LAST_REFRESHED_AT, refreshFinishedAt);
 
   isWalking = false;
 }

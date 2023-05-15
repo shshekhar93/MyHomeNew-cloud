@@ -14,3 +14,7 @@ export const ENTRY_TYPES = {
   DIR: 'DIR',
   FILE: 'FILE',
 };
+
+export const APP_SETTINGS = {
+  LAST_REFRESHED_AT: 'LAST_REFRESHED_AT', 
+};

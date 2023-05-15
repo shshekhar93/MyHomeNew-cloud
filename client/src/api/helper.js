@@ -21,14 +21,6 @@ function isCacheable(method, headers) {
 
 async function httpRequest(method, path, body, headers) {
   const sendPayload = !NO_PAYLOAD_METHODS.includes(method);
-  const cache = isCacheable(method, headers) && await window.caches.open('myhomenew-cloud');
-  if(cache) {
-    const resp = await cache.match(path);
-
-    if(resp) {
-      return resp.json();
-    }
-  }
 
   const resp = await fetch(path, {
     method,
@@ -41,10 +33,6 @@ async function httpRequest(method, path, body, headers) {
   });
 
   if (resp.ok) {
-    // cache if possible
-    if(cache) {
-      await cache.put(path, resp.clone());
-    }
     return resp.json();
   }
 
