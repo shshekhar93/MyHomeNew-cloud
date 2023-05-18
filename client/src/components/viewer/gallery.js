@@ -37,6 +37,11 @@ function VideoPlayer({ id }) {
     <video
       key={id}
       controls
+      autoPlay
+      ish265="ish265"
+      hasvideo="hasvideo"
+      hasaudio="hasaudio"
+      data-setup="{}"
       style={{
         maxHeight: '100%',
         maxWidth: '100%',
