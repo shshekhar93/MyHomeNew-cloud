@@ -27,7 +27,7 @@ async function generateIndex(dir) {
     for(const { name } of directories) {
       await insertDirEntry({
         name,
-        path: dirURL.pathname,
+        path: decodeURIComponent(dirURL.pathname),
       }).catch(
         err => console.log(`Error while saving (${dirURL.pathname}${name}) :: ${err.code} :: ${err.message}`),
       );
@@ -41,7 +41,7 @@ async function generateIndex(dir) {
       await insertFileEntry({
         ...fileType,
         name,
-        path: dirURL.pathname,
+        path: decodeURIComponent(dirURL.pathname),
       }).catch(
         err => console.log(`Error while saving (${dirURL.pathname}${name}) :: ${err.code} :: ${err.message}`),
       );

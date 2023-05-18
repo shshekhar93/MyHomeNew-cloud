@@ -1,6 +1,7 @@
 {
   "indexDir": "/home/shashi/.cloud-config/",
   "directories": {
-    "data": "/home/shashi/test-content-dir/"
+    "photos": "/mnt/SASNAS/Photos/",
+    "videos": "/mnt/SASNAS/Videos/"
   }
 }
