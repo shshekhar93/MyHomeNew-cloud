@@ -9,16 +9,6 @@ const PAYLOAD_HEADERS = {
 
 const NO_PAYLOAD_METHODS = ['GET'];
 
-const CACHE_AVAILABLE = 'caches' in window;
-
-function isCacheable(method, headers) {
-  return CACHE_AVAILABLE
-    && method === HTTP_METHODS.GET
-    && (
-      !headers || Object.keys(headers) === 0
-    );
-}
-
 async function httpRequest(method, path, body, headers) {
   const sendPayload = !NO_PAYLOAD_METHODS.includes(method);
 

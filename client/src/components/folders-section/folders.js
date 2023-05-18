@@ -73,7 +73,8 @@ function Folders() {
         <Input
           id="current-path"
           name="current-path"
-          value={curDir || 'Network'} />
+          value={curDir || 'Network'}
+          readOnly />
       </div>
       <FolderContainer />
     </div>

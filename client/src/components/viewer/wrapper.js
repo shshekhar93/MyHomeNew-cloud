@@ -64,14 +64,14 @@ export function ViewerWrapper({
             <FontAwesomeIcon icon={solid('xmark')} />
           </span>
         </header>
-        <content className={css({
+        <section className={css({
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
           maxHeight: 'calc(100vh - 46px)',
         })}>
           {children}
-        </content>
+        </section>
       </div>
     </FocusTrap>
     

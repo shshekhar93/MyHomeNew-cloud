@@ -69,9 +69,9 @@ function FolderContents() {
       overflowY: 'auto',
       userSelect: 'none',
     })}>
-      {(directories || []).map(({name}) => 
+      {(directories || []).map(({id, name}) => 
         <FolderDisplay
-          key={name}
+          key={id}
           isFile={false}
           name={name}
           category="directory"
@@ -84,7 +84,7 @@ function FolderContents() {
         contentType,
       }) => 
         <FolderDisplay
-          key={name}
+          key={id}
           isFile={true}
           id={id}
           name={name}
