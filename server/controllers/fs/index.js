@@ -175,7 +175,25 @@ async function readfile(req, res) {
       return;
     }
 
-    const stream = createReadStream(filePath);
+    // Handle partial requests
+    let start = 0, end = metadata.size - 1;
+    const rangeHeader = req.get('range');
+    if(rangeHeader) {
+      const [type, range] = rangeHeader.split('=');
+      if(type === 'bytes') {
+        const parts = range.split('-');
+
+        if(parts[0]) {
+          start = +parts[0];
+        }
+
+        if(parts[1]) {
+          end = +parts[1];
+        }
+      }
+    }
+
+    const stream = createReadStream(filePath, { start, end });
 
     stream.on('error', (/*err*/) => {
       // Streaming error occured. Send 404 if response not already sent.
@@ -189,7 +207,15 @@ async function readfile(req, res) {
     if(entry.contentType) {
       res.set('Content-Type', entry.contentType);
     }
+
+    res.set('Accept-Ranges', 'bytes');
     res.set('ETag', eTag);
+
+    if(rangeHeader) {
+      res.set('Content-Range', `bytes ${start}-${end}/${metadata.size}`);
+      res.status(206);
+    }
+
     stream.pipe(res);
   }
   catch(e) {
